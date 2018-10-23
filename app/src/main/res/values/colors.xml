@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00bcd4</color>
+    <color name="colorPrimaryDark">#e00097a7</color>
+    <color name="colorAccent">#ef6d45</color>
+    <color name="Maps_Color">#000000</color>
+</resources>

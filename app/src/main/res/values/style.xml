@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Transparent_Actionbar" parent="AppTheme">
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="Transparent_Actionbar_Main" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/main_background</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+    </style>
+
+    <style name="Transparent_Actionbar_Request_Help" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/background_req_help</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+
+    </style>
+
+    <style name="Transparent_Actionbar_Progress" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/progress_bg</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+
+    </style>
+
+    <style name="Transparent_Actionbar_Send_Help" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/background_send_help</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+
+    </style>
+
+    
+    
+    
+    <style name="Transparent_Actionbar_Maps" parent="AppTheme">
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+    <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <!-- THIS is where you can color the arrow button! -->
+        <item name="colorControlNormal">#919393</item> <!-- sets the color for the back arrow -->
+    </style>
+
+
+
+</resources>

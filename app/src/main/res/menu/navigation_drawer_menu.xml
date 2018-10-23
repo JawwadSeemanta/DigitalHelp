@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/fire_nav" android:title="Fire Service" android:icon="@drawable/ic_main_fire_dept"/>
+    <item android:id="@+id/ambulance_nav" android:title="Ambulance Service" android:icon="@drawable/ic_main_ambulance"/>
+    <item android:id="@+id/police_nav" android:title="Police" android:icon="@drawable/ic_main_police"/>
+    <item android:id="@+id/progress_nav" android:title="Check Progress" android:icon="@drawable/ic_main_progress" />
+    <item android:id="@+id/login_nav" android:title="Login" android:icon="@drawable/ic_main_login" />
+    <item android:id="@+id/about_nav" android:title="About" android:icon="@drawable/ic_main_about" />
+    <item android:id="@+id/exit_nav" android:title="Exit" android:icon="@drawable/ic_exit" />
+</menu>

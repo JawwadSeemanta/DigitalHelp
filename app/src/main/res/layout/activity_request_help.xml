@@ -69,7 +69,6 @@
 
 
             <Button
-                android:id="@+id/req_help_location"
                 android:layout_width="30sp"
                 android:layout_height="30sp"
                 android:layout_gravity="center_vertical"
@@ -98,7 +97,6 @@
 
 
             <Button
-                android:id="@+id/req_help_picture"
                 android:layout_width="30sp"
                 android:layout_height="30sp"
                 android:layout_gravity="center"

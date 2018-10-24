@@ -7,9 +7,21 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality. 
     -->
+    <!-- For Maps -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature android:name="android.hardware.location.gps" />
+
+    <!-- For Camera -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
 
     <application
         android:allowBackup="true"
@@ -27,7 +39,7 @@
         </activity>
         <activity
             android:name=".activityClass.MainActivity"
-            android:theme="@style/Transparent_Actionbar_Main" />
+            android:theme="@style/Transparent_Actionbar_Main"></activity>
         <activity
             android:name=".activityClass.AboutActivity"
             android:parentActivityName=".activityClass.MainActivity" />
@@ -35,6 +47,7 @@
             android:name=".activityClass.RequestHelpActivity"
             android:parentActivityName=".activityClass.MainActivity"
             android:theme="@style/Transparent_Actionbar_Request_Help" />
+
         <activity
             android:name=".activityClass.LoginActivity"
             android:parentActivityName=".activityClass.MainActivity"
@@ -82,6 +95,18 @@
             android:parentActivityName=".activityClass.SendHelp_ViewActivity"
             android:theme="@style/Transparent_Actionbar"
             android:label=""></activity>
+
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.drifters.help.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
+
     </application>
 
 </manifest>

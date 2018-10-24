@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private DrawerLayout nav_Drawer;
     private ActionBarDrawerToggle nav_toggle;
+    private String TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,14 +66,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.fire_cv:
                 i = new Intent(this, RequestHelpActivity.class);
+                TAG = "Fire";
+                i.putExtra("Tag", TAG);
                 startActivity(i);
                 break;
             case R.id.ambulance_cv:
                 i = new Intent(this, RequestHelpActivity.class);
+                TAG = "Ambulance";
+                i.putExtra("Tag", TAG);
                 startActivity(i);
                 break;
             case R.id.police_cv:
                 i = new Intent(this, RequestHelpActivity.class);
+                TAG = "Police";
+                i.putExtra("Tag", TAG);
                 startActivity(i);
                 break;
             case R.id.login_cv:

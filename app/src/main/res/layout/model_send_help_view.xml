@@ -9,8 +9,7 @@
     app:cardUseCompatPadding="true"
     android:layout_marginTop="4dp"
     android:clickable="true"
-    android:focusable="true"
-    android:id="@+id/sendhelp_view_cv">
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"

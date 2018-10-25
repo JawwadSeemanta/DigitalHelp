@@ -117,14 +117,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (item.getItemId()) {
             case R.id.fire_nav:
                 i = new Intent(this, RequestHelpActivity.class);
+                TAG = "Fire";
+                i.putExtra("Tag", TAG);
                 startActivity(i);
                 break;
             case R.id.ambulance_nav:
                 i = new Intent(this, RequestHelpActivity.class);
+                TAG = "Ambulance";
+                i.putExtra("Tag", TAG);
                 startActivity(i);
                 break;
             case R.id.police_nav:
                 i = new Intent(this, RequestHelpActivity.class);
+                TAG = "Police";
+                i.putExtra("Tag", TAG);
                 startActivity(i);
                 break;
             case R.id.login_nav:

@@ -18,9 +18,9 @@
             android:inputType="" android:paddingTop="15sp"
             android:layout_width="250sp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_login_user"
+            android:drawableLeft="@drawable/ic_login_email"
             android:drawablePadding="10sp"
-            android:hint="USERNAME"
+            android:hint="EMAIL"
             android:textColorHint="#ffffff" />
 
         <EditText

@@ -19,9 +19,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:src="@drawable/fab_refresh"
+            android:src="@drawable/fab_logout"
             android:layout_margin="16dp"
             app:fabSize="normal"
-            app:backgroundTint="@color/colorPrimary"
+            app:backgroundTint="#d50000"
             />
 </FrameLayout>

@@ -1,7 +1,7 @@
 package com.drifters.help.viewModel;
 
 public class SendHelp_ViewModel {
-    private String name, phone, status, req_id, req_time, distance;
+    private String name, phone, status, req_id, req_time;
     private int img;
 
     public String getName() {
@@ -50,13 +50,5 @@ public class SendHelp_ViewModel {
 
     public void setReq_time(String req_time) {
         this.req_time = req_time;
-    }
-
-    public String getDistance() {
-        return distance;
-    }
-
-    public void setDistance(String distance) {
-        this.distance = distance;
     }
 }

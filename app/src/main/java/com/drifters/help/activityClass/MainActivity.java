@@ -1,6 +1,8 @@
 package com.drifters.help.activityClass;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -15,6 +17,7 @@ import android.view.View;
 import com.drifters.help.R;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
@@ -27,6 +30,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("Welcome");
+
+        SharedPreferences s = getSharedPreferences("status", Context.MODE_PRIVATE);
+        Boolean opened = s.getBoolean("app_status", false);
+        if (!opened) {
+            openedNow();
+            generateUserID();
+        }
+
+        //TODO: Use this UserID to get only current user put Help Requests
+        int uID = getUserID();
+        String aUID = "User" + uID;
 
         CardView fire = findViewById(R.id.fire_cv);
         CardView ambulance = findViewById(R.id.ambulance_cv);
@@ -162,5 +176,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
+    }
+
+    private void openedNow() {
+        SharedPreferences sp = getSharedPreferences("status", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean("app_status", true);
+        editor.commit();
+
+
+    }
+
+    private void generateUserID() {
+        int appID = (new Random()).nextInt(9999 - 1000) + 1000;
+        SharedPreferences sPref = this.getSharedPreferences("prefUID", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sPref.edit();
+        editor.putInt("appId", appID);
+        editor.commit();
+    }
+
+    private int getUserID() {
+        SharedPreferences sharedPref = this.getSharedPreferences("prefUID", Context.MODE_PRIVATE);
+
+        return sharedPref.getInt("appId", 0);
     }
 }

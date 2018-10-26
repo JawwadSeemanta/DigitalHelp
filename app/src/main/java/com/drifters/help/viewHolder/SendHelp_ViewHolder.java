@@ -11,7 +11,7 @@ import com.drifters.help.R;
 public class SendHelp_ViewHolder extends ViewHolder implements View.OnClickListener{
 
     public ImageView uImage;
-    public TextView uName, uPhone, rStatus, rId, rTime, rDistance;
+    public TextView uName, uPhone, rStatus, rId, rTime;
     private RecycleViewItemClickListener recycleViewItemClickListener;
 
     public SendHelp_ViewHolder(View itemView) {
@@ -23,7 +23,6 @@ public class SendHelp_ViewHolder extends ViewHolder implements View.OnClickListe
         this.rStatus = itemView.findViewById(R.id.view_status);
         this.rId = itemView.findViewById(R.id.req_id);
         this.rTime = itemView.findViewById(R.id.sub_time);
-        this.rDistance = itemView.findViewById(R.id.req_distance);
 
         itemView.setOnClickListener(this);
         uImage.setOnClickListener(this);

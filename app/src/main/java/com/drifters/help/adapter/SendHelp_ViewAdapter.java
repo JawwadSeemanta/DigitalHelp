@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.drifters.help.activityClass.SendHelp_ImageViewerActivity;
 import com.drifters.help.Interfaces.RecycleViewItemClickListener;
-import com.drifters.help.R;
 import com.drifters.help.MapActivities.SendHelp_MapActivity;
+import com.drifters.help.R;
+import com.drifters.help.activityClass.SendHelp_ImageViewerActivity;
 import com.drifters.help.viewHolder.SendHelp_ViewHolder;
 import com.drifters.help.viewModel.SendHelp_ViewModel;
 
@@ -48,7 +48,6 @@ public class SendHelp_ViewAdapter extends RecyclerView.Adapter<SendHelp_ViewHold
         holder.uImage.setImageResource(m.get(position).getImg());
         holder.rId.setText(m.get(position).getReq_id());
         holder.rTime.setText(m.get(position).getReq_time());
-        holder.rDistance.setText(m.get(position).getDistance());
 
         //Animation
         Animation animation = AnimationUtils.loadAnimation(c, android.R.anim.slide_in_left);

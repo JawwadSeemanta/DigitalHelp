@@ -133,33 +133,6 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:paddingTop="3dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Distance: "
-                        style="@style/TextAppearance.AppCompat.Title"
-                        android:textColor="#757575"
-                        android:textSize="15sp"/>
-
-                    <TextView
-                        android:id="@+id/req_distance"
-                        android:paddingTop="3dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@null"
-                        style="@style/TextAppearance.AppCompat.Title"
-                        android:textColor="#757575"
-                        android:textSize="15sp"
-                        android:paddingLeft="10sp"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView

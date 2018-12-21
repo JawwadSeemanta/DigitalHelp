@@ -3,4 +3,6 @@
     <color name="colorPrimary">#00bcd4</color>
     <color name="colorPrimaryDark">#e00097a7</color>
     <color name="colorAccent">#ef6d45</color>
+
+    <color name="SpinnerTextColor">#ffffff</color>
 </resources>

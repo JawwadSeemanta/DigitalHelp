@@ -1,20 +1,20 @@
 package com.drifters.help.MapActivities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
 import com.drifters.help.R;
-import com.drifters.help.activityClass.MainActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,7 +34,7 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
 
     private GoogleMap mMap;
     private Boolean mLocationPermissionsGranted = false;
-    private double Latitude, Longitude;
+    private double Latitude = 0.0, Longitude = 0.0;
 
 
     @Override
@@ -42,17 +42,20 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_help_user_location);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab_done);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Implement
-                Toast.makeText(RequestHelpUserLocationActivity.this, "Location Captured", Toast.LENGTH_SHORT).show();
+                // Passing Locations to RequestHelpActivity
+                Intent result = new Intent();
+                result.putExtra("Lat", Latitude);
+                result.putExtra("Lang", Longitude);
+                setResult(Activity.RESULT_OK, result);
                 finish();
             }
         });
 
-        FloatingActionButton fab2 = findViewById(R.id.fab2);
+        FloatingActionButton fab2 = findViewById(R.id.fab_refresh);
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,10 +72,7 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
         mMap = googleMap;
 
         if (mLocationPermissionsGranted) {
-            getDeviceLocation();
-
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
             mMap.setMyLocationEnabled(true);
@@ -81,6 +81,8 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
             mMap.setIndoorEnabled(true);
             mMap.setBuildingsEnabled(true);
             mMap.getUiSettings().setCompassEnabled(true);
+
+            getDeviceLocation();
 
         }
     }
@@ -93,31 +95,15 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
     }
 
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-
-
     private void getLocationPermission() {
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION_PERMISSION) == PackageManager.PERMISSION_GRANTED) {
-                mLocationPermissionsGranted = true;
-                initializeMap();
-            } else {
-                ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
-                getLocationPermission();
-            }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionsGranted = true;
+            initializeMap();
         } else {
             ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
-            getLocationPermission();
         }
     }
 
@@ -150,22 +136,26 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
         try {
             if (mLocationPermissionsGranted) {
 
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
                 final Task location = mFusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
-                            //Get Location With GPS + Provider
+                            //Get Location With Network Provider
                             Location currentLocation = (Location) task.getResult();
                             if (currentLocation != null) {
                                 Latitude = currentLocation.getLatitude();
                                 Longitude = currentLocation.getLongitude();
                             } else {
-                                Toast.makeText(RequestHelpUserLocationActivity.this, "Please Select Either \"Battery Saving\" or \"High Accuracy\" in Location Options", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(RequestHelpUserLocationActivity.this, MainActivity.class));
+                                Toast.makeText(RequestHelpUserLocationActivity.this, "Please Select Either \"Battery Saving\" or \"High Accuracy\" in Location Options", Toast.LENGTH_SHORT).show();
+
+                                //Open Location Settings
+                                startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 123);
                             }
                             LatLng mLatLng = new LatLng(Latitude, Longitude);
-
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 18));
 
                         }
@@ -175,5 +165,22 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
         } catch (Exception e) {
             Toast.makeText(RequestHelpUserLocationActivity.this, "Unable to Get Current Location", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getLocationPermission();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Passing Locations to RequestHelpActivity
+        Intent result = new Intent();
+        result.putExtra("Lat", Latitude);
+        result.putExtra("Lang", Longitude);
+        setResult(Activity.RESULT_OK, result);
+        finish();
     }
 }

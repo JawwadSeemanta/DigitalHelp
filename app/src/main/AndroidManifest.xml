@@ -10,8 +10,11 @@
     <!-- For Maps -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_SERVICES" />
 
     <uses-feature android:name="android.hardware.location.gps" />
@@ -70,7 +73,7 @@
              Note that the API key is linked to the encryption key used to sign the APK.
              You need a different API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -83,16 +86,9 @@
             android:theme="@style/Transparent_Actionbar_Maps"/>
         <activity
             android:name=".MapActivities.RequestHelpUserLocationActivity"
-            android:parentActivityName=".activityClass.RequestHelpActivity"
             android:label=""
             android:theme="@style/Transparent_Actionbar_Maps"/>
-        <activity android:name=".MapActivities.CheckProgress_MapsActivity"
-            android:label=""
-            android:theme="@style/Transparent_Actionbar_Maps">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.drifters.help.activityClass.CheckProgress_ViewActivity" />
-        </activity>
+
 
         <activity android:name=".activityClass.SendHelp_ImageViewerActivity"
             android:parentActivityName=".activityClass.SendHelp_ViewActivity"

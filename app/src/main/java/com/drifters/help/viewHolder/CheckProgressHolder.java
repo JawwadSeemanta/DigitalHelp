@@ -5,14 +5,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.drifters.help.Interfaces.RecycleViewItemClickListener;
 import com.drifters.help.R;
+import com.drifters.help.adapter.CheckProgressAdapter;
 
 public class CheckProgressHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public ImageView uImage;
     public TextView uName, uPhone, hType, rStatus, rTime;
-    private RecycleViewItemClickListener recycleViewItemClickListener;
+
+    private CheckProgressAdapter.myItemOnclickListener mListener;
 
     public CheckProgressHolder(View itemView) {
         super(itemView);
@@ -29,10 +30,19 @@ public class CheckProgressHolder extends RecyclerView.ViewHolder implements View
 
     @Override
     public void onClick(View v) {
-        this.recycleViewItemClickListener.onItemClick(v, getLayoutPosition());
+        if (mListener != null) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                mListener.OnItemClick(position);
+            }
+        }
     }
 
-    public void setRecycleViewItemClickListener(RecycleViewItemClickListener ic){
-        this.recycleViewItemClickListener = ic;
+    public void setOnItemClickListener(CheckProgressAdapter.myItemOnclickListener listener) {
+        mListener = listener;
     }
+
+
 }
+
+

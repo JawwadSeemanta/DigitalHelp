@@ -19,7 +19,8 @@
             android:layout_height="120sp"
             android:layout_margin="8sp"
             android:contentDescription="Image"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:src="@drawable/loading_indicator" />
 
         <LinearLayout
             android:layout_width="wrap_content"

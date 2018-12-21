@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.drifters.help.Interfaces.RecycleViewItemClickListener;
 import com.drifters.help.R;
 
-public class SendHelp_ViewHolder extends ViewHolder implements View.OnClickListener{
+public class SendHelp_ViewHolder extends ViewHolder implements View.OnClickListener {
 
     public ImageView uImage;
     public TextView uName, uPhone, rStatus, rId, rTime;
@@ -33,7 +33,7 @@ public class SendHelp_ViewHolder extends ViewHolder implements View.OnClickListe
         this.recycleViewItemClickListener.onItemClick(v, getLayoutPosition());
     }
 
-    public void setRecycleViewItemClickListener(RecycleViewItemClickListener ic){
+    public void setRecycleViewItemClickListener(RecycleViewItemClickListener ic) {
         this.recycleViewItemClickListener = ic;
     }
 }

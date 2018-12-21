@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "523071326497",
+    "firebase_url": "https://digitalhelp-eacb3.firebaseio.com",
+    "project_id": "digitalhelp-eacb3",
+    "storage_bucket": "digitalhelp-eacb3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523071326497:android:5406e63a7a7553a1",
+        "android_client_info": {
+          "package_name": "com.drifters.help"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523071326497-o5qlo5pcrctinn4ts58i2a4mgo5qa2eq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.drifters.help",
+            "certificate_hash": "1c305815b75d4a0579b80849f2db1f0fb8a57825"
+          }
+        },
+        {
+          "client_id": "523071326497-lkh8p7etjdvd0gcab5hsvgnnqpkf1er6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4La-j3h54VM5-YVd5uxZqeJeVtFrCHGE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523071326497-lkh8p7etjdvd0gcab5hsvgnnqpkf1er6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

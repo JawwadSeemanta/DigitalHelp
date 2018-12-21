@@ -50,5 +50,9 @@
     </style>
 
 
+    <style name="spinner_style" parent="Base.Widget.AppCompat.Spinner.Underlined">
+        <item name="android:textColorPrimary">@color/SpinnerTextColor</item>
+    </style>
+
 
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center">
@@ -14,11 +15,13 @@
 
 
         <EditText
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name"
             android:inputType="text"
             android:textColorHint="#eeeeee"
+            android:textColor="#edebeb"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -32,18 +35,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="+880"
+                android:text="+8801"
                 android:textColor="#fff"
                 android:textSize="20sp" />
 
             <EditText
+                android:id="@+id/phone"
                 android:layout_width="240dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginStart="6dp"
                 android:hint="Phone"
                 android:inputType="phone"
-                android:maxLength="10"
+                android:maxLength="9"
+                android:textColor="#edebeb"
                 android:textColorHint="#eeeeee" />
 
 
@@ -69,6 +74,7 @@
 
 
             <Button
+                android:id="@+id/loc_button"
                 android:layout_width="30sp"
                 android:layout_height="30sp"
                 android:layout_gravity="center_vertical"
@@ -97,6 +103,7 @@
 
 
             <Button
+                android:id="@+id/pic_button"
                 android:layout_width="30sp"
                 android:layout_height="30sp"
                 android:layout_gravity="center"
@@ -105,6 +112,11 @@
 
         </LinearLayout>
 
+        <ProgressBar
+            android:id="@+id/pb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50sp" />
         <Button
             android:id="@+id/req_help"
             android:layout_width="wrap_content"

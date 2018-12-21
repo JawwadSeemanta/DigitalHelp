@@ -29,7 +29,9 @@
                 android:layout_marginTop="7sp"
                 android:layout_marginBottom="2sp"
                 android:layout_marginStart="5sp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_marginEnd="6dp"
+                android:src="@drawable/loading_indicator" />
             <TextView
                 android:layout_width="120sp"
                 android:layout_height="wrap_content"
@@ -49,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_margin="6dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="8">
 
                 <LinearLayout
@@ -61,10 +63,11 @@
                         android:paddingTop="3dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Request ID: "
+                        android:layout_marginEnd="2dp"
                         style="@style/TextAppearance.AppCompat.Title"
                         android:textColor="#757575"
-                        android:textSize="15sp"/>
+                        android:text="ID: "
+                        android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/req_id"
@@ -74,15 +77,15 @@
                         android:text="@null"
                         style="@style/TextAppearance.AppCompat.Title"
                         android:textColor="#757575"
-                        android:textSize="15sp"
-                        android:paddingLeft="10sp"/>
+                        android:textSize="11dp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingTop="3dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -100,60 +103,57 @@
                         style="@style/TextAppearance.AppCompat.Title"
                         android:textColor="#757575"
                         android:textSize="18sp"
-                        android:paddingLeft="10sp"/>
+                        android:paddingLeft="3sp" />
 
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingTop="3dp">
 
                     <TextView
-                        android:paddingTop="3dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Phone: "
                         style="@style/TextAppearance.AppCompat.Title"
                         android:textColor="#757575"
+                        android:layout_marginEnd="2dp"
                         android:textSize="15sp"/>
 
                     <TextView
                         android:id="@+id/view_phone"
-                        android:paddingTop="3dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@null"
                         style="@style/TextAppearance.AppCompat.Title"
                         android:textColor="#757575"
-                        android:textSize="15sp"
-                        android:paddingLeft="10sp"/>
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingTop="3dp">
 
                     <TextView
                         style="@style/TextAppearance.AppCompat.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="3dp"
                         android:text="Submission Time: "
                         android:textColor="#757575"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/sub_time"
                         style="@style/TextAppearance.AppCompat.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10sp"
-                        android:paddingTop="3dp"
                         android:text="@null"
                         android:textColor="#757575"
-                        android:textSize="13sp" />
+                        android:textSize="10sp" />
 
 
                 </LinearLayout>
@@ -182,7 +182,7 @@
                         android:text="@null"
                         android:textAllCaps="true"
                         android:textStyle="bold"
-                        android:textSize="20sp"/>
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 

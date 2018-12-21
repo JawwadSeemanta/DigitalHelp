@@ -15,15 +15,19 @@
 
 
         <EditText
-            android:inputType="" android:paddingTop="15sp"
+            android:id="@+id/n_login"
+            android:hint="USERNAME"
+            android:inputType=""
             android:layout_width="250sp"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_login_email"
             android:drawablePadding="10sp"
-            android:hint="EMAIL"
-            android:textColorHint="#ffffff" />
+            android:paddingTop="15sp"
+            android:textColor="#ffffff"
+            android:textColorHint="#e0e0e0" />
 
         <EditText
+            android:id="@+id/p_login"
             android:paddingTop="15sp"
             android:layout_width="250sp"
             android:layout_height="wrap_content"
@@ -31,7 +35,38 @@
             android:drawablePadding="10sp"
             android:hint="PASSWORD"
             android:inputType="textPassword"
-            android:textColorHint="#ffffff" />
+            android:textColor="#ffffff"
+            android:textColorHint="#e0e0e0" />
+
+        <LinearLayout
+            android:layout_width="250sp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:layout_weight="6"
+                android:text="Service Type"
+                android:textColor="#ffffff"
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                style="@style/spinner_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:backgroundTint="#ffffff"
+                android:entries="@array/helperType"
+
+                />
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/login_btn"

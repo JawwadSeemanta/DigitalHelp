@@ -7,7 +7,22 @@
     android:orientation="vertical"
     tools:context=".activityClass.SendHelp_ViewActivity">
 
-        <android.support.v7.widget.RecyclerView
+    <ProgressBar
+        android:id="@+id/progressbar_sendhelp_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/tv_sh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="No Help Requests"
+        android:textSize="20dp"
+        android:visibility="invisible" />
+
+    <android.support.v7.widget.RecyclerView
             android:id="@+id/view_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

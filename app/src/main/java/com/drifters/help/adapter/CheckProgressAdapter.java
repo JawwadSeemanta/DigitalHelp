@@ -1,30 +1,40 @@
 package com.drifters.help.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
-import com.drifters.help.Interfaces.RecycleViewItemClickListener;
+import com.drifters.help.ConnectionCheck;
+import com.drifters.help.DataModel.RequestModel;
 import com.drifters.help.R;
-import com.drifters.help.MapActivities.CheckProgress_MapsActivity;
 import com.drifters.help.viewHolder.CheckProgressHolder;
-import com.drifters.help.viewModel.CheckProgressModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class CheckProgressAdapter extends RecyclerView.Adapter<CheckProgressHolder> {
 
-    Context c;
-    ArrayList<CheckProgressModel> models;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    private Context context;
+    private ArrayList<RequestModel> models;
+    private FirebaseStorage firebaseStorage;
 
-    public CheckProgressAdapter(Context c, ArrayList<CheckProgressModel> models) {
-        this.c = c;
+    public CheckProgressAdapter(Context c, ArrayList<RequestModel> models) {
+        this.context = c;
         this.models = models;
     }
 
@@ -33,7 +43,7 @@ public class CheckProgressAdapter extends RecyclerView.Adapter<CheckProgressHold
     public CheckProgressHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         //Converting xml to View Objects
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.model_check_progress, null);
+        View v = LayoutInflater.from(context).inflate(R.layout.model_check_progress, parent, false);
 
         return new CheckProgressHolder(v);
     }
@@ -41,30 +51,74 @@ public class CheckProgressAdapter extends RecyclerView.Adapter<CheckProgressHold
     @Override
     public void onBindViewHolder(@NonNull CheckProgressHolder holder, int position) {
 
+        final RequestModel currentModel = models.get(position);
         //Bind Data to views
-        holder.uName.setText(models.get(position).getName());
-        holder.uPhone.setText(models.get(position).getPhone());
-        holder.hType.setText(models.get(position).getHelp_type());
-        holder.rStatus.setText(models.get(position).getStatus());
-        holder.rTime.setText(models.get(position).getSub_time());
-        holder.uImage.setImageResource(models.get(position).getImg());
+        holder.uName.setText(currentModel.getRequester_Name());
+        holder.uPhone.setText(currentModel.getRequester_Phone());
+        holder.hType.setText(currentModel.getRequest_type());
+        holder.rStatus.setText(currentModel.getStatus());
+        holder.rTime.setText(currentModel.getSubmission_time());
+
+        Picasso.get()
+                .load(currentModel.getImageURL())
+                .placeholder(R.drawable.loading_indicator)
+                .fit()
+                .into(holder.uImage);
 
         //Animation
-        Animation animation = AnimationUtils.loadAnimation(c, android.R.anim.slide_in_left);
+        Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
         holder.itemView.startAnimation(animation);
 
-        //Click on Models
-        holder.setRecycleViewItemClickListener(new RecycleViewItemClickListener() {
+        holder.setOnItemClickListener(new myItemOnclickListener() {
             @Override
-            public void onItemClick(View v, int position) {
-                Intent i = new Intent(c, CheckProgress_MapsActivity.class);
-                c.startActivity(i);
+            public void OnItemClick(final int position) {
+                new AlertDialog.Builder(context).setMessage("Do you want to delete your request?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                if (ConnectionCheck.isOnline(context)) {
+                                    // code to delete the entry
+                                    firebaseDatabase = FirebaseDatabase.getInstance();
+                                    databaseReference = firebaseDatabase.getReference();
+                                    firebaseStorage = FirebaseStorage.getInstance();
+
+                                    final String key = currentModel.getRequest_ID();
+
+                                    //Delete the image in the storage
+                                    StorageReference storageReference = firebaseStorage.getReferenceFromUrl(currentModel.getImageURL());
+                                    storageReference.delete()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    //If Successful delete database entry
+                                                    databaseReference.child(key).removeValue();
+
+                                                    Toast.makeText(context, "Have a nice day!!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+
+
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create().show();
             }
         });
+
     }
 
     @Override
     public int getItemCount() {
         return models.size();
+    }
+
+    public interface myItemOnclickListener {
+        void OnItemClick(int position);
     }
 }

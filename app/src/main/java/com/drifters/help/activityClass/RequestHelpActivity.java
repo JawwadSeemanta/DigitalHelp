@@ -206,7 +206,7 @@ public class RequestHelpActivity extends AppCompatActivity implements View.OnCli
             Latitude = data.getDoubleExtra("Lat", 0);
             Longitude = data.getDoubleExtra("Lang", 0);
             if (Latitude > 0 || Longitude > 0)
-                Toast.makeText(this, "Lat: " + String.valueOf(Latitude) + " , Lang: " + String.valueOf(Longitude), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Lat: " + String.valueOf(Latitude) + " , \nLang: " + String.valueOf(Longitude), Toast.LENGTH_SHORT).show();
             loc_b.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_done_green, null));
         }
 
@@ -220,7 +220,6 @@ public class RequestHelpActivity extends AppCompatActivity implements View.OnCli
 
         final String timeStamp = new SimpleDateFormat("EEE, d MMM yyyy, KK:mm").format(new Date());
         final String ID = TAG + "_" + new SimpleDateFormat("yyMMdd_HHmmss").format(new Date());
-        ;
         final int uID = getUserID();
 
         if (TextUtils.isEmpty(Name) || TextUtils.isEmpty(temp_phone) || mCurrentPhotoPath == null || (Latitude == 0 && Longitude == 0)) {
@@ -282,6 +281,8 @@ public class RequestHelpActivity extends AppCompatActivity implements View.OnCli
                                 Toast.makeText(RequestHelpActivity.this, "Request Submitted Successfully", Toast.LENGTH_SHORT).show();
 
                                 req.setVisibility(View.GONE);
+                                new File(mCompressedPhotoPath).delete();
+                                finish();
                             }
                         }
 

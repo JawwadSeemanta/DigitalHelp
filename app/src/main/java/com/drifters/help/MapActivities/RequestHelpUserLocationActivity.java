@@ -22,13 +22,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 public class RequestHelpUserLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private static final String FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COARSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     FusedLocationProviderClient mFusedLocationProviderClient;
 
@@ -60,7 +60,9 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
             @Override
             public void onClick(View view) {
                 Toast.makeText(RequestHelpUserLocationActivity.this, "Refreshing", Toast.LENGTH_SHORT).show();
-                getDeviceLocation();
+
+                mMap.addMarker(new MarkerOptions().position(new LatLng(Latitude, Longitude)).draggable(true).title("Your Location")).showInfoWindow();
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Latitude, Longitude), 19));
             }
         });
         getLocationPermission();
@@ -75,14 +77,35 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            mMap.setMyLocationEnabled(true);
+            //mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
+            mMap.getUiSettings().setMapToolbarEnabled(false);
             mMap.setIndoorEnabled(true);
             mMap.setBuildingsEnabled(true);
             mMap.getUiSettings().setCompassEnabled(true);
 
             getDeviceLocation();
+
+            mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+                @Override
+                public void onMarkerDragStart(Marker marker) {
+                }
+
+                @Override
+                public void onMarkerDrag(Marker marker) {
+
+                }
+
+                @Override
+                public void onMarkerDragEnd(Marker marker) {
+                    Latitude = marker.getPosition().latitude;
+                    Longitude = marker.getPosition().longitude;
+                    mMap.clear();
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(Latitude, Longitude)).draggable(true).title("Your Location")).showInfoWindow();
+
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Latitude, Longitude), 19));
+                }
+            });
 
         }
     }
@@ -156,7 +179,8 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
                                 startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 123);
                             }
                             LatLng mLatLng = new LatLng(Latitude, Longitude);
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 18));
+                            mMap.addMarker(new MarkerOptions().position(mLatLng).draggable(true).title("Your Location")).showInfoWindow();
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 19));
 
                         }
                     }

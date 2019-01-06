@@ -78,17 +78,22 @@ public class SendHelp_ViewAdapter extends RecyclerView.Adapter<SendHelp_ViewHold
                     i.putExtra("url", m.get(position).getImageURL());
                     c.startActivity(i);
                 } else {
-
                     if (m.get(position).getStatus().equals("REQUESTED")) {
                         i = new Intent(c, SendHelp_MapActivity.class);
                         i.putExtra("id", m.get(position).getRequest_ID());
                         i.putExtra("accepted?", false);
+
+                        i.putExtra("dest_lat", m.get(position).getLat());
+                        i.putExtra("dest_lon", m.get(position).getLang());
                         c.startActivity(i);
                     }
                     if (m.get(position).getStatus().equals("ACCEPTED")) {
                         i = new Intent(c, SendHelp_MapActivity.class);
                         i.putExtra("id", m.get(position).getRequest_ID());
                         i.putExtra("accepted?", true);
+
+                        i.putExtra("dest_lat", m.get(position).getLat());
+                        i.putExtra("dest_lon", m.get(position).getLang());
                         c.startActivity(i);
                     }
 
@@ -115,7 +120,7 @@ public class SendHelp_ViewAdapter extends RecyclerView.Adapter<SendHelp_ViewHold
                                                             //If Successful delete database entry
                                                             databaseReference.child(key).removeValue();
 
-                                                            Toast.makeText(c, "Thank you for your effort!!", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(c, "Request Deleted", Toast.LENGTH_SHORT).show();
                                                         }
                                                     });
                                         }

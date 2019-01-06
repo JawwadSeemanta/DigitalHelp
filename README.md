@@ -9,7 +9,6 @@ Digital help allows you to get help from nearby fire service, ambulance service 
         • Check progress of the request for help.
 
         The app also aid the helpers by -
-        • Showing the shortest route to you
-        • Show the duration to reach the destination
+        • Showing the location of the incident
 
 Thank you for using the app. Hope you would find the app useful in case of your emergencies.

@@ -38,14 +38,14 @@
             app:fabSize="normal" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/sh_fab_refresh"
+            android:id="@+id/fab_reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:src="@drawable/fab_refresh"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_help_desc_location"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="90dp"
             app:fabSize="normal"
             app:backgroundTint="@color/colorPrimary" />

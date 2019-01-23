@@ -1,14 +1,17 @@
 package com.drifters.help.activityClass;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
@@ -104,7 +107,16 @@ public class RequestHelpActivity extends AppCompatActivity implements View.OnCli
 
         switch (v.getId()) {
             case R.id.pic_ll:
-                dispatchTakePictureIntent();
+                String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, permissions, 28);
+                } else {
+                    dispatchTakePictureIntent();
+                }
+
                 break;
 
             case R.id.loc_ll:
@@ -181,6 +193,7 @@ public class RequestHelpActivity extends AppCompatActivity implements View.OnCli
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+
             }
         }
     }
@@ -205,9 +218,11 @@ public class RequestHelpActivity extends AppCompatActivity implements View.OnCli
         if (requestCode == REQUEST_LOCATION && resultCode == RESULT_OK) {
             Latitude = data.getDoubleExtra("Lat", 0);
             Longitude = data.getDoubleExtra("Lang", 0);
-            if (Latitude > 0 || Longitude > 0)
-                Toast.makeText(this, "Lat: " + String.valueOf(Latitude) + " , Lang: " + String.valueOf(Longitude), Toast.LENGTH_SHORT).show();
-            loc_b.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_done_green, null));
+            if (Latitude != 0 || Longitude != 0) {
+                Toast.makeText(this, "Lat: " + String.valueOf(Latitude) + " , \nLang: " + String.valueOf(Longitude), Toast.LENGTH_SHORT).show();
+                loc_b.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_done_green, null));
+            }
+
         }
 
     }
@@ -220,7 +235,6 @@ public class RequestHelpActivity extends AppCompatActivity implements View.OnCli
 
         final String timeStamp = new SimpleDateFormat("EEE, d MMM yyyy, KK:mm").format(new Date());
         final String ID = TAG + "_" + new SimpleDateFormat("yyMMdd_HHmmss").format(new Date());
-        ;
         final int uID = getUserID();
 
         if (TextUtils.isEmpty(Name) || TextUtils.isEmpty(temp_phone) || mCurrentPhotoPath == null || (Latitude == 0 && Longitude == 0)) {
@@ -282,6 +296,8 @@ public class RequestHelpActivity extends AppCompatActivity implements View.OnCli
                                 Toast.makeText(RequestHelpActivity.this, "Request Submitted Successfully", Toast.LENGTH_SHORT).show();
 
                                 req.setVisibility(View.GONE);
+                                new File(mCompressedPhotoPath).delete();
+                                finish();
                             }
                         }
 
@@ -303,7 +319,7 @@ public class RequestHelpActivity extends AppCompatActivity implements View.OnCli
                             req.setVisibility(View.VISIBLE);
                             req.setClickable(true);
 
-                            Toast.makeText(RequestHelpActivity.this, "Upload Failed", Toast.LENGTH_SHORT);
+                            Toast.makeText(RequestHelpActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -323,6 +339,25 @@ public class RequestHelpActivity extends AppCompatActivity implements View.OnCli
         SharedPreferences sharedPref = this.getSharedPreferences("prefUID", Context.MODE_PRIVATE);
 
         return sharedPref.getInt("appId", 0);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        String[] p = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+
+        switch (requestCode) {
+            case 28: {
+                if (grantResults.length > 0) {
+                    for (int grantResult : grantResults) {
+                        if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(this, p, 28);
+                        }
+                    }
+                    dispatchTakePictureIntent();
+                }
+            }
+        }
     }
 
 }

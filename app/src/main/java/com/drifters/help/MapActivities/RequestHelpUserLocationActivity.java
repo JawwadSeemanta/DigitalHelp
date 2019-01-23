@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,15 +23,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 public class RequestHelpUserLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private static final String FINE_LOCATION_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COARSE_LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    FusedLocationProviderClient mFusedLocationProviderClient;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
 
     private GoogleMap mMap;
     private Boolean mLocationPermissionsGranted = false;
@@ -41,6 +40,8 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_help_user_location);
+
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         FloatingActionButton fab = findViewById(R.id.fab_done);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -72,18 +73,10 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
         mMap = googleMap;
 
         if (mLocationPermissionsGranted) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
-            mMap.setIndoorEnabled(true);
-            mMap.setBuildingsEnabled(true);
-            mMap.getUiSettings().setCompassEnabled(true);
-
             getDeviceLocation();
-
         }
     }
 
@@ -96,14 +89,16 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
 
 
     private void getLocationPermission() {
-        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE};
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+
             mLocationPermissionsGranted = true;
             initializeMap();
-        } else {
-            ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
 
@@ -111,6 +106,7 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         mLocationPermissionsGranted = false;
+        String[] perm = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE};
 
         switch (requestCode) {
             case LOCATION_PERMISSION_REQUEST_CODE: {
@@ -118,6 +114,7 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
                     for (int grantResult : grantResults) {
                         if (grantResult != PackageManager.PERMISSION_GRANTED) {
                             mLocationPermissionsGranted = false;
+                            ActivityCompat.requestPermissions(this, perm, LOCATION_PERMISSION_REQUEST_CODE);
                             return;
                         }
                     }
@@ -130,41 +127,43 @@ public class RequestHelpUserLocationActivity extends AppCompatActivity implement
     }
 
     private void getDeviceLocation() {
-
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        try {
             if (mLocationPermissionsGranted) {
 
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
+                String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET, Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.ACCESS_NETWORK_STATE};
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
+                } else {
+
+                    mFusedLocationProviderClient.getLastLocation()
+                            .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                                @Override
+                                public void onSuccess(Location location) {
+                                    if (location != null && location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
+                                        Latitude = location.getLatitude();
+                                        Longitude = location.getLongitude();
+                                    } else {
+                                        Toast.makeText(RequestHelpUserLocationActivity.this, "Please Select Either \"Battery Saving\" or \"High Accuracy\" in Location Options", Toast.LENGTH_SHORT).show();
+                                        //Open Location Settings
+                                        startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 123);
+                                        finish();
+                                    }
+                                    LatLng mLatLng = new LatLng(Latitude, Longitude);
+                                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 19));
+                                }
+                            })
+                            .addOnFailureListener(this, new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(RequestHelpUserLocationActivity.this, "Unable to Get Current Location", Toast.LENGTH_SHORT).show();
+                                    Log.d("Location Failure", e.getMessage());
+                                    finish();
+                                }
+                            });
                 }
-                final Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            //Get Location With Network Provider
-                            Location currentLocation = (Location) task.getResult();
-                            if (currentLocation != null) {
-                                Latitude = currentLocation.getLatitude();
-                                Longitude = currentLocation.getLongitude();
-                            } else {
-                                Toast.makeText(RequestHelpUserLocationActivity.this, "Please Select Either \"Battery Saving\" or \"High Accuracy\" in Location Options", Toast.LENGTH_SHORT).show();
 
-                                //Open Location Settings
-                                startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 123);
-                            }
-                            LatLng mLatLng = new LatLng(Latitude, Longitude);
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLng, 18));
-
-                        }
-                    }
-                });
             }
-        } catch (Exception e) {
-            Toast.makeText(RequestHelpUserLocationActivity.this, "Unable to Get Current Location", Toast.LENGTH_SHORT).show();
-        }
     }
 
 

@@ -1,6 +1,6 @@
 # DigitalHelp
 Digital Help - Get help when you need it.
-Digital help allows you to get help from nearby fire service, ambulance service or police in case of emergency. Using digital help, you can get help just where you are.
+Digital help is an android application which allows you to get help from nearby fire service, ambulance service or police in case of emergency. Using digital help, you can get help just where you are.
 
         The app lets you-
         • Get help just by using your phone number
